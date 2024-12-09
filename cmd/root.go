@@ -14,8 +14,8 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		dir, _ := cmd.Flags().GetString("path")
 		if dir == "" {
-			fmt.Println("Please provide a directory path using the --path flag.")
-			return
+			dir = "."
+			fmt.Println("No path provided, defaulting to the current directory.")
 		}
 
 		files, err := tasks.TraverseDirectory(dir)
@@ -31,8 +31,8 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	// Register the --path flag here so it's recognized
-	rootCmd.Flags().String("path", ".", "Directory path to traverse") // Default is current directory
+	// Register the --path flag here, but it's optional and defaults to current directory
+	rootCmd.Flags().String("path", ".", "Directory path to traverse")
 }
 
 func Execute() {
