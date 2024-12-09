@@ -8,7 +8,7 @@ import (
 // FileInfo holds the basic details of a file
 type FileInfo struct {
 	Path string
-	Size int64
+	Info fs.FileInfo
 }
 
 // TraverseDirectory traverses a directory recursively and returns information about all files.
@@ -32,7 +32,7 @@ func TraverseDirectory(dir string) ([]FileInfo, error) {
 
 			files = append(files, FileInfo{
 				Path: path,
-				Size: info.Size(),
+				Info: info,
 			})
 		}
 
