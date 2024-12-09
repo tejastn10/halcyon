@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"text/tabwriter"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/tejastn10/halcyon/tasks"
@@ -24,8 +26,22 @@ var rootCmd = &cobra.Command{
 			return
 		}
 
+		// Creating a tab writer for formatted output
+		writer := tabwriter.NewWriter(os.Stdout, 0, 4, 2, ' ', 0)
+		defer writer.Flush()
+
+		// Print the header
+		fmt.Fprintln(writer, "Path\tName\tSize\tMode\tModTime")
+
+		// Print file information in a structured format
 		for _, file := range files {
-			fmt.Printf("Path: %s, Size: %d bytes\n", file.Path, file.Size)
+			fmt.Fprintf(writer, "%s\t%s\t%d bytes\t%s\t%v\n",
+				file.Path,
+				file.Info.Name(),
+				file.Info.Size(),
+				file.Info.Mode(),
+				file.Info.ModTime().Format(time.RFC3339),
+			)
 		}
 	},
 }
