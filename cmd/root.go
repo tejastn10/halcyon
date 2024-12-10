@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"text/tabwriter"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/tejastn10/halcyon/tasks"
@@ -20,7 +19,7 @@ var rootCmd = &cobra.Command{
 			fmt.Println("No path provided, defaulting to the current directory.")
 		}
 
-		files, err := tasks.TraverseDirectory(dir)
+		fileGroups, err := tasks.TraverseDirectory(dir)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			return
@@ -31,17 +30,21 @@ var rootCmd = &cobra.Command{
 		defer writer.Flush()
 
 		// Print the header
-		fmt.Fprintln(writer, "Path\tName\tSize\tMode\tModTime")
+		fmt.Fprintln(writer, "Group\tPath\tSize\tName\tCanonical Name")
 
 		// Print file information in a structured format
-		for _, file := range files {
-			fmt.Fprintf(writer, "%s\t%s\t%d bytes\t%s\t%v\n",
-				file.Path,
-				file.Info.Name(),
-				file.Info.Size(),
-				file.Info.Mode(),
-				file.Info.ModTime().Format(time.RFC3339),
-			)
+		for groupKey, files := range fileGroups {
+			if len(files) > 1 { // Only show duplicates
+				for _, file := range files {
+					fmt.Fprintf(writer, "%s\t%s\t%d bytes\t%s\t%s\n",
+						groupKey,
+						file.Path,
+						file.Info.Size(),
+						file.Info.Name(),
+						file.Canonical,
+					)
+				}
+			}
 		}
 	},
 }
