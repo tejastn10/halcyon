@@ -50,3 +50,35 @@ func TestGetCanonicalName(t *testing.T) {
 		})
 	}
 }
+
+// TestContains tests the Contains function
+// Each test case specifies a slice of strings, a search string, and the expected output
+func TestContains(t *testing.T) {
+	tests := []struct {
+		name     string   // Test case name
+		slice    []string // Slice of strings
+		search   string   // Search string
+		expected bool     // Expected output
+	}{
+		// Basic cases
+		{"empty slice", []string{}, "search", false},
+		{"single element", []string{"search"}, "search", true},
+		{"single element mismatch", []string{"search"}, "other", false},
+		{"multiple elements", []string{"one", "two", "three"}, "two", true},
+		{"multiple elements mismatch", []string{"one", "two", "three"}, "four", false},
+	}
+
+	// Iterate over each test case
+	for _, tt := range tests {
+		// Run each test case as a sub-test
+		t.Run(tt.name, func(t *testing.T) {
+			// Call the Contains function
+			got := Contains(tt.slice, tt.search)
+
+			// Verify the output against the expected value
+			if got != tt.expected {
+				t.Errorf("Contains(%v, %q) = %t, want %t", tt.slice, tt.search, got, tt.expected)
+			}
+		})
+	}
+}
