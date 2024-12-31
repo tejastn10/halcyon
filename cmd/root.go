@@ -50,8 +50,11 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	// Register the --path flag here, but it's optional and defaults to current directory
-	rootCmd.Flags().String("path", ".", "Directory path to traverse")
+	rootCmd.Flags().StringVarP(&targetDir, "dir", "d", ".", "Directory to scan")
+	rootCmd.Flags().Int64VarP(&maxSize, "max-size", "M", 0, "Maximum file size in bytes")
+	rootCmd.Flags().Int64VarP(&minSize, "min-size", "m", 0, "Minimum file size in bytes")
+	rootCmd.Flags().BoolVarP(&concurrent, "concurrent", "c", true, "Enable concurrent processing")
+	rootCmd.Flags().StringSliceVarP(&extensions, "ext", "e", nil, "File extensions to process (e.g., .txt,.pdf)")
 }
 
 func Execute() {
