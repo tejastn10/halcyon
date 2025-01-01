@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Lint
 
 on:
   pull_request:
@@ -8,12 +8,12 @@ on:
       - edited
       - opened
       - synchronize
-  workflow_dispatch:
 
 jobs:
-  unit_tests:
+  lint:
     runs-on: ubuntu-latest
 
+    name: Linting Go Code
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,8 +23,7 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Install Dependencies
-        run: go mod tidy
-
-      - name: Run Unit Tests
-        run: go test ./... -v
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.61.0

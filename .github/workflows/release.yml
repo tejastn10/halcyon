@@ -1,0 +1,91 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # Trigger the workflow when a version tag is pushed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Fetch all tags
+      - name: Fetch Tags
+        run: git fetch --force --tags
+
+      # Setup Go environment
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # Build the binary for multiple platforms
+      - name: Build Binary
+        run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -o dist/halcyon-linux-amd64 main.go
+          GOOS=darwin GOARCH=arm64 go build -o dist/halcyon-darwin-arm64 main.go
+          GOOS=windows GOARCH=amd64 go build -o dist/halcyon-windows-amd64.exe main.go
+
+      # Compress the binaries
+      - name: Compress Binaries
+        run: |
+          cd dist
+          zip halcyon-linux-amd64.zip halcyon-linux-amd64
+          zip halcyon-darwin-amd64.zip halcyon-darwin-amd64
+          zip halcyon-windows-amd64.zip halcyon-windows-amd64.exe
+
+      # Upload binaries to GitHub Release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+  homebrew:
+    name: Publish to Homebrew
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Bump Homebrew Formula
+        uses: dawidd6/action-homebrew-bump-formula@v4
+        with:
+          formula: halcyon
+          token: ${{ secrets.HOMEBREW_TOKEN }}
+
+  npm:
+    name: Publish to NPM
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Create NPM package
+        run: |
+          mkdir packaging
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo '{"name":"halcyon","version":"'$VERSION'","bin":{"halcyon":"./halcyon"}}' > packaging/package.json
+          mv dist/halcyon-linux-amd64 packaging/halcyon
+
+      - name: Publish to NPM
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_API_KEY }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          cd packaging
+          npm publish
