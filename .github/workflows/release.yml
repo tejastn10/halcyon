@@ -41,7 +41,7 @@ jobs:
         run: |
           cd dist
           zip halcyon-linux-amd64.zip halcyon-linux-amd64
-          zip halcyon-darwin-amd64.zip halcyon-darwin-amd64
+          zip halcyon-darwin-arm64.zip halcyon-darwin-arm64
           zip halcyon-windows-amd64.zip halcyon-windows-amd64.exe
 
       # Upload binaries to GitHub Release
