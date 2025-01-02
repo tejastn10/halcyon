@@ -44,10 +44,30 @@ jobs:
           zip halcyon-darwin-arm64.zip halcyon-darwin-arm64
           zip halcyon-windows-amd64.zip halcyon-windows-amd64.exe
 
-      # Upload binaries to GitHub Release
+      # Create GitHub Release
+      - name: Generate Release Notes
+        id: release-notes
+        run: |
+          echo "# Halcyon ${{ github.ref_name }} 🚀" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "## ✨ Features" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "---" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "## 🛠 Installation" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "For macOS, Linux, and Windows:" >> release-notes.md
+          echo "1. Download the latest release binary from the [Releases](https://github.com/tejastn10/halcyon/releases) page." >> release-notes.md
+          echo "2. Extract the binary and add it to your system’s PATH." >> release-notes.md
+          echo "" >> release-notes.md
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          name: ${{ github.ref_name }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
           files: dist/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
