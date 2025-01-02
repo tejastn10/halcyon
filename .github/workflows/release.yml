@@ -87,8 +87,18 @@ jobs:
         run: |
           mkdir packaging
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo '{"name":"halcyon","version":"'$VERSION'","bin":{"halcyon":"./halcyon"}}' > packaging/package.json
-          mv dist/halcyon-linux-amd64 packaging/halcyon
+
+          # Check if the OS is Linux, Darwin (macOS), or Windows
+          if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            BINARY="halcyon-linux-amd64"
+          elif [[ "$OSTYPE" == "darwin"* ]]; then
+            BINARY="halcyon-darwin-arm64"
+          elif [[ "$OSTYPE" == "msys" ]]; then
+            BINARY="halcyon-windows-amd64.exe"
+          fi
+
+          echo '{"name":"halcyon","version":"'$VERSION'","bin":{"halcyon":"./'$BINARY'"}}' > packaging/package.json
+          mv dist/$BINARY packaging/halcyon
 
       - name: Publish to NPM
         env:
