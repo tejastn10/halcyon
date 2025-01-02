@@ -82,28 +82,3 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Create NPM package
-        run: |
-          mkdir packaging
-          VERSION=${GITHUB_REF#refs/tags/v}
-
-          # Check if the OS is Linux, Darwin (macOS), or Windows
-          if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-            BINARY="halcyon-linux-amd64"
-          elif [[ "$OSTYPE" == "darwin"* ]]; then
-            BINARY="halcyon-darwin-arm64"
-          elif [[ "$OSTYPE" == "msys" ]]; then
-            BINARY="halcyon-windows-amd64.exe"
-          fi
-
-          echo '{"name":"halcyon","version":"'$VERSION'","bin":{"halcyon":"./'$BINARY'"}}' > packaging/package.json
-          mv dist/$BINARY packaging/halcyon
-
-      - name: Publish to NPM
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_API_KEY }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          cd packaging
-          npm publish
