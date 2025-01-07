@@ -1,34 +1,31 @@
 # Halcyon 🔍
 
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/tejastn10/halcyon)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/tejastn10/halcyon?logo=go&logoColor=white)
 [![Unit Tests](https://github.com/tejastn10/halcyon/actions/workflows/unit-test.yml/badge.svg)](https://github.com/tejastn10/halcyon/actions/workflows/unit-test.yml)
 [![Release Workflow](https://github.com/tejastn10/halcyon/actions/workflows/release.yml/badge.svg)](https://github.com/tejastn10/halcyon/actions/workflows/release.yml)
+![License](https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white)
 
 Halcyon is a Go-based CLI tool designed to identify and manage duplicate files in a directory, including nested subdirectories. With Halcyon, you can quickly detect duplicate files, view their paths, and take appropriate actions like moving, deleting, or listing them—all while ensuring a lightweight and fast execution.
 
-## Features
+---
 
-- [x] Traverse directories, including nested subdirectories.
-- [x] Identify duplicate files by name and size.
-- [x] Detect similar file names (e.g., `file_copy`, `file (1)`).
-- [x] Provide multiple options for managing duplicates:
-  - Move duplicates to a specific folder.
-  - Print paths of duplicates.
-  - Delete duplicates.
-- [x] Simple and intuitive CLI interface.
+## Features 🌟
+
+- **Directory Traversal**: Recursively scans directories, including nested subdirectories, for a comprehensive duplicate search.
+- **Duplicate Detection**:
+  - Identifies duplicate files by name and size.
+  - Detects similar file names (e.g., `file_copy`, `file (1)`).
+- **Flexible Duplicate Management**:
+  - **Move**: Move duplicates to a specified folder.
+  - **Print**: Display paths of duplicate files.
+  - **Delete**: Permanently delete duplicates.
+- **User-Friendly CLI**: Simple and intuitive command-line interface for easy operation.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
-
-- [Go 1.23+](https://go.dev/doc/install) installed on your machine.
-- [Git](https://git-scm.com/) for version control (optional).
-
----
-
-### Installation
+### Installation ⚙️
 
 1. Clone this repository:
 
@@ -78,7 +75,7 @@ Halcyon is a Go-based CLI tool designed to identify and manage duplicate files i
 
 ### Example Output
 
-```markdown
+```bash
 Total files: 2
 Processed: 2
 Skipped: 0
@@ -97,7 +94,7 @@ Use the arrow keys to navigate: ↓ ↑ → ←
 ↓   Skip these duplicates
 ```
 
-### Project Structure
+### Project Structure 📂
 
 ```bash
 halcyon/
@@ -114,11 +111,11 @@ halcyon/
 ├── LICENSE.md            # Project license
 ```
 
-### Contributing
+### Contributing 🤝
 
 Contributions are welcome! Feel free to open an issue or submit a pull request if you have ideas to enhance Halcyon.
 
-### To-Do
+### To-Do ✅
 
 - Add support for advanced duplicate detection using file hashes.
 - Allow configurable file actions via a config file.
@@ -126,13 +123,13 @@ Contributions are welcome! Feel free to open an issue or submit a pull request i
 
 ---
 
-## License
+## License 📜
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Acknowledgments
+## Acknowledgments 🙌
 
 - Named after **Halcyon**, symbolizing tranquility and clarity.
 - Built with ❤️ and Go.
