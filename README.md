@@ -31,49 +31,23 @@ Halcyon is a Go-based CLI tool designed to identify and manage duplicate files i
 
 ### Installation ⚙️
 
-1. Clone this repository:
+You can install Halcyon using the following command:
 
-    ```bash
-    git clone https://github.com/tejastn10/halcyon.git
-    cd halcyon
-    ```
+```bash
+curl -sSf https://raw.githubusercontent.com/tejastn10/halcyon/main/scripts/install.sh | bash
+```
 
-2. Install dependencies:
+This will download and install the latest version of Halcyon.
 
-    ```bash
-    go mod tidy
-    ```
+### Uninstallation
 
-3. Run the project:
+To remove Halcyon from your system, run:
 
-    ```bash
-    go run main.go
-    ```
+```bash
+curl -sSf https://raw.githubusercontent.com/tejastn10/halcyon/main/scripts/uninstall.sh | bash
+```
 
----
-
-### Usage
-
-1. **Build the project:**
-
-    ```bash
-    go build -o halcyon
-    ```
-
-2. **Run the CLI tool:**
-
-    You can pass the directory path as a flag (defaults to the current directory if no path is provided):
-
-    ```bash
-    ./halcyon --dir="/your/directory/path"
-    ```
-
-3. **Available actions:**
-
-    After detecting duplicates, Halcyon will provide options:
-    - Move duplicates to a folder.
-    - Print duplicate file paths.
-    - Delete duplicates.
+This will remove the installed binary from your system.
 
 ---
 
@@ -98,26 +72,9 @@ Use the arrow keys to navigate: ↓ ↑ → ←
 ↓   Skip these duplicates
 ```
 
-### Project Structure 📂
-
-```bash
-halcyon/
-├── cmd/                  # CLI commands
-│   ├── root.go           # Main CLI entry point
-├── tasks/                # Core logic for file operations
-│   ├── traverse.go       # Directory traversal logic
-├── utils/                # Utility functions
-│   ├── utils.go          # Reusable helpers
-├── go.mod                # Go module definition
-├── go.sum                # Go module checksum
-├── main.go               # Application entry point
-├── README.md             # Project documentation
-├── LICENSE.md            # Project license
-```
-
 ### Contributing 🤝
 
-Contributions are welcome! Feel free to open an issue or submit a pull request if you have ideas to enhance Halcyon.
+Contributions are welcome! Check out the [Contribution Guide](CONTRIBUTING.md) for details on how to get started. Feel free to open an issue or submit a pull request if you have ideas to enhance Halcyon.
 
 ### To-Do ✅
 
